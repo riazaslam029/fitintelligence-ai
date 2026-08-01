@@ -86,7 +86,7 @@ Participating in the Weekend Annoying Task Challenge was an incredible hands-on 
 ## 5. App Link & Source Code
 
 - **Live Deployed App**: [http://fitintelligence-app-2026-prod.s3-website.ap-south-1.amazonaws.com](http://fitintelligence-app-2026-prod.s3-website.ap-south-1.amazonaws.com)
-- **Source Code Repository**: [/home/riaz/fitintelligence-app](file:///home/riaz/fitintelligence-app)
+- **GitHub Source Code Repository**: [https://github.com/riazaslam029/fitintelligence-ai](https://github.com/riazaslam029/fitintelligence-ai)
 `;
 
   const handleCopy = () => {
