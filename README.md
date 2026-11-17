@@ -1,155 +1,130 @@
 # 💪 FitIntelligence AI
 
-**AI Biomechanics Coach & Secure Gym Check-In System**
+### AI-powered biomechanics coaching and secure gym check-ins
 
-FitIntelligence AI is a web-based application that automates two common fitness challenges: ensuring correct exercise form and tracking gym attendance. It combines browser-based computer vision with AWS cloud services to provide real-time feedback and secure check-ins.
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20App-2563eb?style=for-the-badge&logo=amazonaws&logoColor=white)](http://fitintelligence-app-2026-prod.s3-website.ap-south-1.amazonaws.com)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=20232A)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5%2B-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![AWS](https://img.shields.io/badge/AWS-Cloud%20Services-FF9900?style=flat-square&logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-22c55e?style=flat-square)](LICENSE)
 
----
+FitIntelligence AI is a web application that combines browser-based computer vision with AWS services to help users improve exercise form and manage secure gym attendance. It provides real-time movement analysis, AI-generated coaching feedback, biometric verification, geofenced check-ins, and workout tracking.
 
-## 🚀 Live Demo
+> **Project status:** Educational prototype and demonstration project. AWS credentials, permissions, and backend endpoints must be configured before production use.
 
-🔗 http://fitintelligence-app-2026-prod.s3-website.ap-south-1.amazonaws.com
+## ✨ Highlights
 
----
+- 🏋️ **Biomechanics analysis** — Detects body keypoints from a webcam and calculates movement angles such as knee flexion, elbow alignment, and posture.
+- 🤖 **AI coaching feedback** — Sends structured movement data to Amazon Bedrock Nova models for actionable form guidance.
+- 🛡️ **Secure check-ins** — Combines Amazon Rekognition face verification with AWS Lambda geofencing.
+- 📈 **Workout tracking** — Stores repetitions, timestamps, and form scores in Amazon DynamoDB.
+- ⚡ **Responsive browser experience** — Uses HTML5 Canvas for real-time visual rendering without unnecessary React re-renders.
 
-## 📌 Features
+## 🧭 How It Works
 
-* 🏋️ **Exercise Form Analysis**
-  Detects body joints via webcam and calculates angles (e.g., knee flexion, elbow alignment, posture).
+1. The browser requests webcam and location permissions.
+2. Movement keypoints are detected and processed locally.
+3. Vector mathematics converts keypoints into exercise angles and form metrics.
+4. Structured metrics are sent to Amazon Bedrock for coaching feedback.
+5. Gym check-ins use Rekognition for face verification and Lambda for GPS validation.
+6. Workout and check-in results can be persisted in DynamoDB and media can be stored in S3.
 
-* 🤖 **AI Feedback (Amazon Bedrock)**
-  Sends structured joint data to Bedrock (Nova models) and returns actionable form corrections.
+## 🏗️ Architecture
 
-* 🛡️ **Secure Gym Check-In**
-
-  * Face verification using Amazon Rekognition
-  * GPS validation using AWS Lambda (geofencing)
-
-* 📊 **Workout Tracking**
-  Stores reps, timestamps, and form scores in DynamoDB.
-
----
-
-## 🧠 How It Works
-
-1. Webcam captures user movement
-2. Joint keypoints are detected and processed in the browser
-3. Angle data is generated using vector math
-4. Data is sent to Amazon Bedrock → returns feedback
-5. Check-in triggers:
-
-   * Rekognition → face verification
-   * Lambda → GPS validation
-6. Results stored in DynamoDB and optionally S3
-
----
-
-## 🏗️ Architecture Overview
-
-```
-[ Browser (Webcam + GPS) ]
-        │
-        ├──> Amazon Bedrock → AI Feedback
-        ├──> Amazon Rekognition → Face Verification
-        ├──> AWS Lambda → Geofence Validation
-        └──> DynamoDB → Data Storage
-                     │
-                     └──> Amazon S3 → Media Storage
+```text
+┌──────────────────────────────┐
+│ Browser                      │
+│ Webcam + GPS + Canvas        │
+└──────────────┬───────────────┘
+               │
+      ┌────────┼─────────┬──────────────┐
+      ▼        ▼         ▼              ▼
+  Bedrock  Rekognition  Lambda       DynamoDB
+  Coaching Face check   Geofence     Tracking
+                                           │
+                                           ▼
+                                          S3
+                                     Media storage
 ```
 
----
+## 🧰 Technology Stack
 
-## 🛠️ Tech Stack
+| Area | Technologies |
+| --- | --- |
+| Frontend | React, TypeScript, Vite |
+| Visualization | HTML5 Canvas, Lucide React |
+| AI | Amazon Bedrock (Nova models) |
+| Identity and validation | Amazon Rekognition, AWS Lambda |
+| Storage and hosting | Amazon DynamoDB, Amazon S3, AWS Amplify/S3 hosting |
 
-**Frontend**
+## 🚀 Getting Started
 
-* React + TypeScript (Vite)
-* HTML5 Canvas (real-time rendering)
+### Prerequisites
 
-**Backend / Cloud**
+- Node.js 18 or later
+- npm
+- An AWS account with the required service access
 
-* Amazon Bedrock (Nova models)
-* Amazon Rekognition
-* AWS Lambda
-* Amazon DynamoDB
-* Amazon S3
-* AWS Amplify / S3 Hosting
-
----
-
-## ⚙️ Setup Instructions
-
-### 1. Clone Repository
+### Installation
 
 ```bash
 git clone https://github.com/riazaslam029/fitintelligence-ai.git
 cd fitintelligence-ai
-```
-
-### 2. Install Dependencies
-
-```bash
 npm install
 ```
 
-### 3. Run Locally
+### Run locally
 
 ```bash
 npm run dev
 ```
 
-### 4. Configure AWS
+Then open the local URL printed by Vite.
 
-* Add your AWS credentials
-* Enable:
+### Validate the project
 
-  * Bedrock access
-  * Rekognition permissions
-  * Lambda endpoint
-* Update environment variables accordingly
+```bash
+npm run lint
+npm run build
+```
 
----
+### AWS configuration
 
-## ⚠️ Notes
+Configure the project’s AWS endpoints and environment variables for:
 
-* Webcam and location permissions are required
-* AWS services must be properly configured for full functionality
-* A basic fallback/demo mode may run without live AWS credentials
+- Amazon Bedrock model access
+- Amazon Rekognition permissions
+- AWS Lambda geofencing
+- Amazon DynamoDB persistence
+- Optional Amazon S3 media storage
 
----
+Never commit AWS credentials or other secrets. Use environment variables, IAM least-privilege policies, and a managed secrets solution for deployments.
 
-## 📚 What I Learned
+## 🔐 Privacy and Responsible Use
 
-* Integrating real-time browser-based computer vision with cloud AI
-* Using Amazon Bedrock for structured input and feedback generation
-* Designing multi-factor verification using Rekognition + Lambda
-* Optimizing performance using Canvas instead of React rendering
+This project processes camera, location, and biometric-related data. Use it only with informed user consent, clear retention policies, appropriate access controls, and compliance with applicable privacy laws. It is not a medical device and should not replace professional medical or fitness advice.
 
----
+## 🗺️ Roadmap
 
-## 📎 Related Links
+- [ ] Add automated tests for biomechanics calculations
+- [ ] Add production-ready authentication and authorization
+- [ ] Add configurable workout and gym profiles
+- [ ] Add observability, error reporting, and secure API integration
+- [ ] Document deployment and infrastructure configuration
 
-* 📝 Article:
-  https://builder.aws.com/content/3HJqvY6JuGLUhqJOBN040jhL8CO/weekend-annoying-task-challenge-fitintelligence-ai-biomechanics-coach-and-secure-gym-check-in
+## 📚 Related Links
 
-* 💻 GitHub Repo:
-  https://github.com/riazaslam029/fitintelligence-ai
+- 📝 [AWS Builder article](https://builder.aws.com/content/3HJqvY6JuGLUhqJOBN040jhL8CO/weekend-annoying-task-challenge-fitintelligence-ai-biomechanics-coach-and-secure-gym-check-in)
+- 💻 [GitHub repository](https://github.com/riazaslam029/fitintelligence-ai)
 
----
+## 🏆 Challenge
 
-## 🏁 Challenge
-
-Built for the **AWS Weekend Annoying Task Challenge (2026)** — focused on turning small, repetitive problems into practical applications using AWS.
-
----
+Built for the **AWS Weekend Annoying Task Challenge (2026)**, focused on turning small, repetitive problems into practical applications using AWS.
 
 ## 👤 Author
 
-**Riaz Aslam**
-Software Engineering Student
-
----
+**Riaz Aslam** · Software Engineering Student
 
 ## 📄 License
 
-This project is for educational and demonstration purposes.
+Distributed under the MIT License. See [`LICENSE`](LICENSE) for details.
